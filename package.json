@@ -1,0 +1,27 @@
+{
+  "name": "export-web-to-pdf",
+  "description": "Node.js lib to export any web page to PDF",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "mocha",
+    "coverage": "nyc npm run test"
+  },
+  "author": "Pablo Compagni <pablo.compagni@bluealba.com>",
+  "license": "ISC",
+  "dependencies": {
+    "co": "^4.6.0",
+    "debug": "^4.1.1",
+    "puppeteer": "^2.0.0",
+    "url": "^0.11.0",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2",
+    "nyc": "^14.1.1"
+  }
+}
