@@ -14,7 +14,7 @@ const logConsoleOutput = require("./lib/logConsoleOutput");
 // These are common locations for Chrome on Docker images like the `alpine` and `node`.
 // In those cases it makes sense not to download Chrome from puppeteer and use the distro version
 const EXISTING_CHROME_PATHS = ["/usr/bin/google-chrome-unstable", "/usr/bin/chromium-browser"];
-const EXTRA_WAIT_TIME = 5000; //TODO: configurable
+const EXTRA_WAIT_TIME = 2000; //TODO: configurable
 const MAX_RETRIES = 3;
 
 const exportWebToPdf = co.wrap(function*(url, options = {}) {
