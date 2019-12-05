@@ -30,10 +30,10 @@ const readFile = filename => {
 
 const deleteFile = filename => {
   return new Promise((resolve, reject) => {
-    fs.unlink(filename, (err, data) => {
+    fs.unlink(filename, (err) => {
       if (err) return reject(err);
 
-      resolve(data);
+      resolve();
     });
   });
 };

@@ -1,7 +1,7 @@
 const expect = require("chai").expect;
 const logConsoleOutput = require("../src/lib/logConsoleOutput");
 
-describe("logConsoleOutputText", function() {
+describe("logConsoleOutputTest", function() {
   it("should correctly log the message given", () => {
     let target = () => {
       let msg = {
