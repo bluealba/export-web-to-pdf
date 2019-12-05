@@ -4,13 +4,13 @@ Node.js lib to export any web page to PDF.
 
 ## Installation
 
-```shell script
+```
 npm install export-web-to-pdf
 ```
 
 ## Usage
 
-```js
+```
 const exportWebToPdf = require("export-web-to-pdf");
 
 exportWebToPdf("http://www.example.com", exportOptions)
