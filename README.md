@@ -1,5 +1,11 @@
 # export-web-to-pdf
 
+[![Build Status](https://travis-ci.org/bluealba/export-web-to-pdf.svg?branch=master)](https://travis-ci.org/bluealba/export-web-to-pdf)
+[![npm](https://img.shields.io/npm/v/export-web-to-pdf.svg)](https://npmjs.org/package/export-web-to-pdf)
+[![npm](https://img.shields.io/npm/dt/export-web-to-pdf.svg)](https://npmjs.org/package/export-web-to-pdf)
+[![Coverage Status](https://coveralls.io/repos/github/bluealba/export-web-to-pdf/badge.svg?branch=master)](https://coveralls.io/github/bluealba/export-web-to-pdf?branch=master)
+
+
 Node.js lib to export any web page to PDF.
 
 ## Installation
@@ -8,9 +14,13 @@ Node.js lib to export any web page to PDF.
 npm install export-web-to-pdf
 ```
 
-## Usage
-
+or if you rather use `yarn`
 ```
+yarn add export-web-to-pdf
+```
+
+## Usage
+```javascript
 const exportWebToPdf = require("export-web-to-pdf");
 
 exportWebToPdf("http://www.example.com", exportOptions)
@@ -23,7 +33,9 @@ See the `sample/` folder for a running example.
 
 ## API
 
-`let response = exportWebToPdf(url, options);`
+```javascript
+let response = exportWebToPdf(url, options);
+```
 
 #### Parameters
 
