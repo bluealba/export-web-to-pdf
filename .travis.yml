@@ -1,6 +1,15 @@
 language: node_js
 node_js:
-  - "10"
-  - "12"
+- '10'
+- '12'
 after_success:
-  - npm run coverage
+- npm run coverage
+- npm run coveralls
+deploy:
+  provider: npm
+  email: pablocompagni@gmail.com
+  api_key:
+    secure: XgzK6i5UB3H8jzdQoTJamdbGp4AKUebJLJCB3JaF5l4MtFhu+APuCQx837zZdn2kXmpirLqwDdOMJzzJAourQoNEP2XU9c8aE6bIuWOc4MHSARJZz+MmGK66IszivvTEhuR3OuHTnlWJrdq5Lpdtw9YFRhjSv4o4vrkk99mJ+moRogqEQZS16Jp3OSO1i6DO2jl3O37h+sEZbgxK4P1OSMpFO4Yut2Wby3qNwDEuSHohsD3A2PF8U1rpgpE6JJq0lNCNrS2dIwCWymFrevXV9iucCTOVU+TSEXZEkSugZIlzbeEzgH5tO6kQCOB3djy/keK8cJqW0YrH1VnvLAYe1dqBbqlpKadtKb97rv7JrqBycdSeJQoMaxH1USFuqN5bR+YAlxAtzHyxxIRqCAW1SPWU5r4xBpvFZoncIBf/Nv+6kB7oZbikzj4Lm2a5pDJq54HqhA3mS4KhC6JfVBALpEQ7RnY+N/+sMopLchugKJYZigfyhdRn/5bgvUi5xtZGVm8oxlbFG7y1msZ6lXXt/8Y3piJFCZWWoTAeMyhNG2O+TIuVU84A4PYqn+Qd+DeMHwxuGWX2FvrUTQnBlJRv/cgPhsGf250YcabJMtGY904e0OuHv0TQ4nugqAgK9Lo5r9nYOEcG5toKvK8bz89cLVhbXtyWmrpodJqjnk+543U=
+  on:
+    tags: true
+    repo: bluealba/export-web-to-pdf
