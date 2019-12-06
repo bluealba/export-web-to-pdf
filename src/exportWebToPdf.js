@@ -2,6 +2,7 @@
 const co = require("co");
 const puppeteer = require("puppeteer");
 const { TimeoutError } = require("puppeteer/Errors");
+const redact = require("./lib/redact");
 const log = require("./lib/log");
 const getTempFile = require("./lib/fileUtils").getTempFile;
 const readFile = require("./lib/fileUtils").readFile;
@@ -13,7 +14,10 @@ const logConsoleOutput = require("./lib/logConsoleOutput");
 
 // These are common locations for Chrome on Docker images like the `alpine` and `node`.
 // In those cases it makes sense not to download Chrome from puppeteer and use the distro version
-const EXISTING_CHROME_PATHS = ["/usr/bin/google-chrome-unstable", "/usr/bin/chromium-browser"];
+const EXISTING_CHROME_PATHS = [
+  "/usr/bin/google-chrome-unstable",
+  "/usr/bin/chromium-browser"
+];
 const EXTRA_WAIT_TIME = 2000; //TODO: configurable
 const MAX_RETRIES = 3;
 
@@ -34,7 +38,11 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
     let tempFile = yield getTempFile(".pdf");
     options = defaultOptions(tempFile, options);
 
-    log(`Generating export PDF tempDir=${tempFile} url=${url} options=${JSON.stringify(options)}`);
+    log(
+      `Generating export PDF tempDir=${tempFile} url=${url} options=${JSON.stringify(
+        options
+      )}`
+    );
 
     if (options.auth) {
       url = addUserToUrl(url, options.auth);
@@ -58,7 +66,9 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
     log(`URL responded with status ${response.status()}.`);
 
     if (!response.ok()) {
-      throw new Error(`URL responded with status ${response.status()} ${response.statusText()}.`);
+      throw new Error(
+        `URL responded with status ${response.status()} ${response.statusText()}.`
+      );
     }
 
     if (options.waitForSelectors && options.waitForSelectors.length > 0) {
@@ -68,7 +78,9 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
       do {
         retries++;
         yield Promise.all(
-          options.waitForSelectors.map(selector => page.waitFor(selector, { timeout: options.loadingTimeout }))
+          options.waitForSelectors.map(selector =>
+            page.waitFor(selector, { timeout: options.loadingTimeout })
+          )
         )
           .then(() => {
             loading = false;
@@ -79,12 +91,16 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
               log("Error waiting for page selectors.");
               throw e;
             }
-            log(`Couldn't find selectors during try number ${retries}. Trying again...`);
+            log(
+              `Couldn't find selectors during try number ${retries}. Trying again...`
+            );
             if (options.screenshotPath) {
               log(`Saving screenshot path=${options.screenshotPath}`);
               let now = new Date();
               page.screenshot({
-                path: `${options.screenshotPath}/screenshot_${now.toLocaleDateString()}_${now.toLocaleTimeString()}.png`,
+                path: `${
+                  options.screenshotPath
+                }/screenshot_${now.toLocaleDateString()}_${now.toLocaleTimeString()}.png`,
                 fullPage: true
               });
             }
@@ -104,7 +120,9 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
     log(`Deleting temp PDF file filename=${tempFile}`);
     yield deleteFile(tempFile);
 
-    log(`Exported content to PDF url=${url}`);
+    log(url);
+    log(redact(url, "***"));
+    log(`Exported content to PDF url=${redact(url, "***")}`);
 
     return pdfData;
   } catch (e) {
