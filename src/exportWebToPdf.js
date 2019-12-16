@@ -110,7 +110,7 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
 
     yield new Promise(resolve => setTimeout(resolve, EXTRA_WAIT_TIME));
 
-    log(`Generating PDF file with options=${options.pdfSettings}`);
+    log(`Generating PDF file with options=${JSON.stringify(options.pdfSettings)}`);
     yield page.emulateMedia("print");
     yield page.pdf(options.pdfSettings);
 
