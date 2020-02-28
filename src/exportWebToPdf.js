@@ -61,6 +61,10 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
       page.on("console", logConsoleOutput);
     }
 
+    if (options.viewportSettings) {
+      yield page.setViewport(options.viewportSettings);
+    }
+
     log("Navigating to URL...");
     const response = yield page.goto(url, { timeout: options.loadingTimeout });
     log(`URL responded with status ${response.status()}.`);
