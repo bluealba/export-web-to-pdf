@@ -65,7 +65,10 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
       yield page.setViewport(options.viewportSettings);
     }
 
-    log("Navigating to URL...");
+    log("Setting emulatedMedia to print");
+    yield page.emulateMedia("print");
+
+    log("Navigating to URL");
     const response = yield page.goto(url, { timeout: options.loadingTimeout });
     log(`URL responded with status ${response.status()}.`);
 
@@ -115,7 +118,6 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
     yield new Promise(resolve => setTimeout(resolve, EXTRA_WAIT_TIME));
 
     log(`Generating PDF file with options=${JSON.stringify(options.pdfSettings)}`);
-    yield page.emulateMedia("print");
     yield page.pdf(options.pdfSettings);
 
     log("Reading PDF file generated");
