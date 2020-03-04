@@ -96,7 +96,12 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
           .catch(e => {
             if (retries === MAX_RETRIES) {
               log("Error waiting for page selectors.");
-              throw e;
+               if (options.forceExport) {
+									loading = false;
+									log("Force export is active. Exporting with error");
+								} else {
+									throw e;
+								}
             }
             log(
               `Couldn't find selectors during try number ${retries}. Trying again...`
