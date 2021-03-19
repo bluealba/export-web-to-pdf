@@ -19,6 +19,8 @@ const defaultOptions = (tempFile, options) => {
   options.loadingTimeout = options.loadingTimeout || 30000;
   options.ignoreHTTPSErrors = options.ignoreHTTPSErrors || false;
   options.showBrowserConsole = options.showBrowserConsole || false;
+  options.extraWaitTime = options.extraWaitTime || 2000;
+  options.maxRetries = options.maxRetries || 3;
 
   return options;
 };
