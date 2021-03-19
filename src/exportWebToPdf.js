@@ -18,8 +18,6 @@ const EXISTING_CHROME_PATHS = [
   "/usr/bin/google-chrome-unstable",
   "/usr/bin/chromium-browser"
 ];
-const EXTRA_WAIT_TIME = 2000; //TODO: configurable
-const MAX_RETRIES = 3;
 
 const exportWebToPdf = co.wrap(function*(url, options = {}) {
   log(`Exporting ${url} content to pdf`);
@@ -94,7 +92,8 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
             log(`Found CSS selectors during try number ${retries}.`);
           })
           .catch(e => {
-            if (retries === MAX_RETRIES) {
+
+            if (retries === options.maxRetries) {
               log("Error waiting for page selectors.");
                if (options.forceExport) {
 									loading = false;
@@ -120,7 +119,7 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
       } while (loading);
     }
 
-    yield new Promise(resolve => setTimeout(resolve, EXTRA_WAIT_TIME));
+    yield new Promise(resolve => setTimeout(resolve, options.extraWaitTime));
 
     log(`Generating PDF file with options=${JSON.stringify(options.pdfSettings)}`);
     yield page.pdf(options.pdfSettings);
