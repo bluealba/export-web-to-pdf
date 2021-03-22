@@ -18,8 +18,6 @@ const EXISTING_CHROME_PATHS = [
   "/usr/bin/google-chrome-unstable",
   "/usr/bin/chromium-browser"
 ];
-const EXTRA_WAIT_TIME = 2000; //TODO: configurable
-const MAX_RETRIES = 3;
 
 const exportWebToPdf = co.wrap(function*(url, options = {}) {
   log(`Exporting ${url} content to pdf`);
@@ -61,7 +59,14 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
       page.on("console", logConsoleOutput);
     }
 
-    log("Navigating to URL...");
+    if (options.viewportSettings) {
+      yield page.setViewport(options.viewportSettings);
+    }
+
+    log("Setting emulatedMedia to print");
+    yield page.emulateMedia("print");
+
+    log("Navigating to URL");
     const response = yield page.goto(url, { timeout: options.loadingTimeout });
     log(`URL responded with status ${response.status()}.`);
 
@@ -87,9 +92,15 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
             log(`Found CSS selectors during try number ${retries}.`);
           })
           .catch(e => {
-            if (retries === MAX_RETRIES) {
+
+            if (retries === options.maxRetries) {
               log("Error waiting for page selectors.");
-              throw e;
+               if (options.forceExport) {
+									loading = false;
+									log("Force export is active. Exporting with error");
+								} else {
+									throw e;
+								}
             }
             log(
               `Couldn't find selectors during try number ${retries}. Trying again...`
@@ -108,10 +119,9 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
       } while (loading);
     }
 
-    yield new Promise(resolve => setTimeout(resolve, EXTRA_WAIT_TIME));
+    yield new Promise(resolve => setTimeout(resolve, options.extraWaitTime));
 
-    log("Generating PDF file");
-    yield page.emulateMedia("print");
+    log(`Generating PDF file with options=${JSON.stringify(options.pdfSettings)}`);
     yield page.pdf(options.pdfSettings);
 
     log("Reading PDF file generated");
