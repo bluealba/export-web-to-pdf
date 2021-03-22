@@ -1,7 +1,7 @@
 "use strict";
 const co = require("co");
 const puppeteer = require("puppeteer");
-const { TimeoutError } = require("puppeteer/Errors");
+
 const redact = require("./lib/redact");
 const log = require("./lib/log");
 const getTempFile = require("./lib/fileUtils").getTempFile;
@@ -136,7 +136,7 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
 
     return pdfData;
   } catch (e) {
-    if (e instanceof TimeoutError) {
+    if (e instanceof puppeteer.errors.TimeoutError) {
       log("Error: PDF generation timed out", e);
     } else {
       log("Error: Failed to export.");
