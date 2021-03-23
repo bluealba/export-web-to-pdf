@@ -20,7 +20,7 @@ const defaultOptions = (tempFile, options) => {
   options.ignoreHTTPSErrors = options.ignoreHTTPSErrors || false;
   options.showBrowserConsole = options.showBrowserConsole || false;
   options.extraWaitTime = options.extraWaitTime || 2000;
-  options.maxRetries = options.maxRetries || 3;
+  options.maxRetries = (options.maxRetries) ? parseInt(options.maxRetries) : 3;
 
   return options;
 };

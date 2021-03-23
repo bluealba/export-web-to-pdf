@@ -19,7 +19,7 @@ const EXISTING_CHROME_PATHS = [
   "/usr/bin/chromium-browser"
 ];
 
-const exportWebToPdf = co.wrap(function*(url, options = {}) {
+const exportWebToPdf = co.wrap(function* (url, options = {}) {
   log(`Exporting ${url} content to pdf`);
   let chromeExec;
   let browser;
@@ -64,7 +64,7 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
     }
 
     log("Setting emulatedMedia to print");
-    yield page.emulateMedia("print");
+    yield page.emulateMediaType("print");
 
     log("Navigating to URL");
     const response = yield page.goto(url, { timeout: options.loadingTimeout });
@@ -84,7 +84,7 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
         retries++;
         yield Promise.all(
           options.waitForSelectors.map(selector =>
-            page.waitFor(selector, { timeout: options.loadingTimeout })
+            page.waitForSelector(selector, { timeout: options.loadingTimeout })
           )
         )
           .then(() => {
@@ -92,15 +92,14 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
             log(`Found CSS selectors during try number ${retries}.`);
           })
           .catch(e => {
-
             if (retries === options.maxRetries) {
               log("Error waiting for page selectors.");
-               if (options.forceExport) {
-									loading = false;
-									log("Force export is active. Exporting with error");
-								} else {
-									throw e;
-								}
+              if (options.forceExport) {
+                loading = false;
+                log("Force export is active. Exporting with error");
+              } else {
+                throw e;
+              }
             }
             log(
               `Couldn't find selectors during try number ${retries}. Trying again...`
@@ -111,7 +110,7 @@ const exportWebToPdf = co.wrap(function*(url, options = {}) {
               page.screenshot({
                 path: `${
                   options.screenshotPath
-                }/screenshot_${now.toLocaleDateString()}_${now.toLocaleTimeString()}.png`,
+                  }/screenshot_${now.toLocaleDateString()}_${now.toLocaleTimeString()}.png`,
                 fullPage: true
               });
             }
