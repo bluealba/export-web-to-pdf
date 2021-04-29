@@ -1,0 +1,44 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: monthly
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: mocha
+    versions:
+    - 8.2.1
+    - 8.3.0
+    - 8.3.2
+  - dependency-name: chai
+    versions:
+    - 4.3.0
+    - 4.3.4
+  - dependency-name: nyc
+    versions:
+    - 15.1.0
+  - dependency-name: coveralls
+    versions:
+    - 3.1.0
+  - dependency-name: debug
+    versions:
+    - 4.3.1
+  - dependency-name: uuid
+    versions:
+    - 8.3.2
+  - dependency-name: puppeteer
+    versions:
+    - 5.5.0
+    - 8.0.0
+  - dependency-name: sinon
+    versions:
+    - 9.2.2
+    - 9.2.4
+  - dependency-name: handlebars
+    versions:
+    - 4.7.6
+    - 4.7.7
+  - dependency-name: lodash
+    versions:
+    - 4.17.20
