@@ -66,6 +66,11 @@ const exportWebToPdf = co.wrap(function* (url, options = {}) {
     log("Setting emulatedMedia to print");
     yield page.emulateMediaType("print");
 
+    if (options.headers) {
+      log("Setting headers");
+      yield page.setExtraHTTPHeaders(options.headers);
+    }
+
     log("Navigating to URL");
     const response = yield page.goto(url, { timeout: options.loadingTimeout });
     log(`URL responded with status ${response.status()}.`);
